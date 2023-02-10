@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import axios from "axios";
 
+// protocol: http
+// method:
+// endpoint:
+export type Product = {
+  id: number;
+  productName: string;
+  price: number;
+  image: string;
+};
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const url = "http://localhost:8000/products";
+
+  const [products, setProducts] = useState<Product[]>([]);
+  console.log(products, "list");
+
+  function fetchData() {
+    axios
+      .get(url)
+      .then((res) => res.data)
+      .then((data) => setProducts(data));
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  return <div className="App"></div>;
 }
 
 export default App;
